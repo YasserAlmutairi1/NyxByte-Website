@@ -40,9 +40,9 @@
         .logo img {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
-            border: 2px solid #0ea5e9;
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
         }
 
         .logo h1 {
@@ -296,7 +296,8 @@
     </div>
 
     <script>
-        const CHANNEL_USERNAME = 'NyxByteHJ';
+        const CHANNEL_HANDLE = 'NyxByteHJ';
+        const CHANNEL_URL = 'https://www.youtube.com/@NyxByteHJ';
         const API_KEY = 'AIzaSyCxhGHG2Bi75fL7_vYYJi2N9h_VWGiUlPU'; // YouTube Data API v3 key
 
         function showPage(pageName) {
@@ -312,23 +313,9 @@
 
         async function getChannelData() {
             try {
-                const response = await fetch(
-                    `https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&forUsername=${CHANNEL_USERNAME}&key=${API_KEY}`
-                );
-                
-                if (!response.ok) {
-                    throw new Error('Channel not found');
-                }
-                
-                const data = await response.json();
-                
-                if (data.items && data.items.length > 0) {
-                    return data.items[0];
-                }
-                
-                // If forUsername doesn't work, try custom URL search
+                // Try to search for the channel by handle
                 const searchResponse = await fetch(
-                    `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${CHANNEL_USERNAME}&type=channel&key=${API_KEY}`
+                    `https://www.googleapis.com/youtube/v3/search?part=snippet&q=@${CHANNEL_HANDLE}&type=channel&key=${API_KEY}`
                 );
                 
                 const searchData = await searchResponse.json();
@@ -341,7 +328,9 @@
                     );
                     
                     const channelData = await channelResponse.json();
-                    return channelData.items[0];
+                    if (channelData.items && channelData.items.length > 0) {
+                        return channelData.items[0];
+                    }
                 }
                 
                 throw new Error('Channel not found');
@@ -362,7 +351,7 @@
                         <div class="error-message">
                             Unable to load videos automatically. The channel might be new or the username format might be different.
                             <br><br>
-                            <a href="https://youtube.com/NyxByteHJ" target="_blank" style="color: #0ea5e9;">Visit the channel directly on YouTube</a>
+                            <a href="${CHANNEL_URL}" target="_blank" style="color: #0ea5e9;">Visit the channel directly on YouTube</a>
                         </div>
                     `;
                     return;
