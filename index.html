@@ -13,9 +13,38 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f3460 100%);
+            background: #0a0a0f;
             min-height: 100vh;
             color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #0f3460 100%);
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
         }
 
         nav {
@@ -40,9 +69,11 @@
         .logo img {
             width: 50px;
             height: 50px;
-            border-radius: 0;
-            border: none;
-            box-shadow: none;
+            transition: transform 0.3s;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .logo h1 {
@@ -99,85 +130,153 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Hero Section */
         .hero {
             text-align: center;
-            padding: 3rem 0;
+            padding: 4rem 0;
         }
 
         .hero h2 {
-            font-size: 3rem;
+            font-size: 4rem;
             margin-bottom: 1rem;
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4, #0ea5e9);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+            color: #fff;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(14, 165, 233, 0.4);
+            margin: 0.5rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(14, 165, 233, 0.6);
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+        }
+
+        .stat-card h3 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        /* Community Section */
+        .community-section {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .community-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
             background: linear-gradient(135deg, #0ea5e9, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .hero p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            color: #94a3b8;
-        }
-
-        .videos-grid {
+        .social-links {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
 
-        .video-card {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(14, 165, 233, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .video-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
-            border-color: rgba(14, 165, 233, 0.5);
-        }
-
-        .video-thumbnail {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background: #1e293b;
-        }
-
-        .video-info {
-            padding: 1rem;
-        }
-
-        .video-title {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-            color: #e2e8f0;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .video-date {
-            font-size: 0.85rem;
-            color: #64748b;
-            margin-top: 0.5rem;
-        }
-
-        .loading {
-            text-align: center;
+        .social-card {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 15px;
             padding: 2rem;
-            font-size: 1.2rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+
+        .social-card:hover {
+            transform: scale(1.05);
+            border-color: rgba(14, 165, 233, 0.6);
+            box-shadow: 0 10px 40px rgba(14, 165, 233, 0.3);
+        }
+
+        .social-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
             color: #0ea5e9;
         }
 
-        .about-content, .contact-content {
+        .social-card p {
+            color: #94a3b8;
+        }
+
+        /* About Page */
+        .about-content {
             background: rgba(15, 23, 42, 0.8);
             border: 1px solid rgba(14, 165, 233, 0.2);
             backdrop-filter: blur(10px);
@@ -186,7 +285,7 @@
             margin-top: 2rem;
         }
 
-        .about-content h2, .contact-content h2 {
+        .about-content h2 {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
             background: linear-gradient(135deg, #0ea5e9, #06b6d4);
@@ -195,10 +294,37 @@
             background-clip: text;
         }
 
-        .about-content p, .contact-content p {
+        .about-content p {
             font-size: 1.2rem;
             line-height: 1.8;
             color: #cbd5e1;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Contact Page */
+        .contact-content {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .contact-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
         }
 
         .contact-info {
@@ -222,26 +348,16 @@
             box-shadow: 0 8px 30px rgba(14, 165, 233, 0.5);
         }
 
-        .error-message {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-            text-align: center;
-        }
-
         @media (max-width: 768px) {
             .nav-links {
                 gap: 1rem;
             }
 
             .hero h2 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
-            .videos-grid {
+            .stats-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -252,6 +368,8 @@
     </style>
 </head>
 <body>
+    <div class="animated-bg"></div>
+
     <nav>
         <div class="logo">
             <img src="https://yt3.googleusercontent.com/L96rIIaP5cAQLkHAv9sV55AnWx4_TD2gd_5mr3wU6PZm888NJWQwETx6ZNt68LzKpDUoLbPI3w=s160-c-k-c0x00ffffff-no-rj" alt="NyxByte Logo">
@@ -268,10 +386,42 @@
         <!-- Home Page -->
         <div id="home" class="page active">
             <div class="hero">
-                <h2>Welcome to NyxByte</h2>
-                <p>Check out the latest videos from the channel</p>
+                <h2>NyxByte</h2>
+                <p>Creating Content, Building Community</p>
+                <a href="https://www.youtube.com/@NyxByteHJ" target="_blank" class="cta-button">🎬 Subscribe on YouTube</a>
+                <a href="YOUR_DISCORD_LINK_HERE" target="_blank" class="cta-button">💬 Join Discord</a>
             </div>
-            <div id="videosContainer" class="loading">Loading videos...</div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>🎥</h3>
+                    <p>Quality Content</p>
+                </div>
+                <div class="stat-card">
+                    <h3>🚀</h3>
+                    <p>Growing Community</p>
+                </div>
+                <div class="stat-card">
+                    <h3>⚡</h3>
+                    <p>Regular Uploads</p>
+                </div>
+            </div>
+
+            <div class="community-section">
+                <h2>Join the Community</h2>
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@NyxByteHJ" target="_blank" class="social-card">
+                        <div class="social-icon">📺</div>
+                        <h3>YouTube</h3>
+                        <p>Watch the latest videos and subscribe for more content</p>
+                    </a>
+                    <a href="YOUR_DISCORD_LINK_HERE" target="_blank" class="social-card">
+                        <div class="social-icon">💬</div>
+                        <h3>Discord Server</h3>
+                        <p>Join our community, chat with others, and stay updated</p>
+                    </a>
+                </div>
+            </div>
         </div>
 
         <!-- About Page -->
@@ -279,7 +429,8 @@
             <div class="about-content">
                 <h2>About NyxByte</h2>
                 <p>Welcome to NyxByte! This channel is dedicated to creating engaging content that combines creativity, technology, and entertainment. Whether you're looking for tutorials, reviews, or just some fun content, NyxByte has something for everyone.</p>
-                <p style="margin-top: 1rem;">Join the community and subscribe to stay updated with the latest uploads. Every video is crafted with passion and dedication to bring you the best viewing experience.</p>
+                <p>Join the community and subscribe to stay updated with the latest uploads. Every video is crafted with passion and dedication to bring you the best viewing experience.</p>
+                <p>Connect with us on Discord to be part of the growing community, share ideas, and get exclusive updates!</p>
             </div>
         </div>
 
@@ -296,10 +447,6 @@
     </div>
 
     <script>
-        const CHANNEL_HANDLE = 'NyxByteHJ';
-        const CHANNEL_URL = 'https://www.youtube.com/@NyxByteHJ';
-        const API_KEY = 'AIzaSyCxhGHG2Bi75fL7_vYYJi2N9h_VWGiUlPU'; // YouTube Data API v3 key
-
         function showPage(pageName) {
             const pages = document.querySelectorAll('.page');
             const links = document.querySelectorAll('.nav-link');
@@ -310,99 +457,6 @@
             document.getElementById(pageName).classList.add('active');
             document.querySelector(`a[onclick="showPage('${pageName}')"]`).classList.add('active');
         }
-
-        async function getChannelData() {
-            try {
-                // Try to search for the channel by handle
-                const searchResponse = await fetch(
-                    `https://www.googleapis.com/youtube/v3/search?part=snippet&q=@${CHANNEL_HANDLE}&type=channel&key=${API_KEY}`
-                );
-                
-                const searchData = await searchResponse.json();
-                
-                if (searchData.items && searchData.items.length > 0) {
-                    const channelId = searchData.items[0].snippet.channelId;
-                    
-                    const channelResponse = await fetch(
-                        `https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&id=${channelId}&key=${API_KEY}`
-                    );
-                    
-                    const channelData = await channelResponse.json();
-                    if (channelData.items && channelData.items.length > 0) {
-                        return channelData.items[0];
-                    }
-                }
-                
-                throw new Error('Channel not found');
-            } catch (error) {
-                console.error('Error fetching channel:', error);
-                return null;
-            }
-        }
-
-        async function fetchVideos() {
-            const container = document.getElementById('videosContainer');
-            
-            try {
-                const channelData = await getChannelData();
-                
-                if (!channelData) {
-                    container.innerHTML = `
-                        <div class="error-message">
-                            Unable to load videos automatically. The channel might be new or the username format might be different.
-                            <br><br>
-                            <a href="${CHANNEL_URL}" target="_blank" style="color: #0ea5e9;">Visit the channel directly on YouTube</a>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                const uploadsPlaylistId = channelData.contentDetails.relatedPlaylists.uploads;
-                
-                const videosResponse = await fetch(
-                    `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=12&key=${API_KEY}`
-                );
-                
-                const videosData = await videosResponse.json();
-                
-                if (!videosData.items || videosData.items.length === 0) {
-                    container.innerHTML = '<div class="loading">No videos found yet. Check back soon!</div>';
-                    return;
-                }
-                
-                const videosHTML = videosData.items.map(item => {
-                    const videoId = item.snippet.resourceId.videoId;
-                    const title = item.snippet.title;
-                    const thumbnail = item.snippet.thumbnails.medium.url;
-                    const publishedAt = new Date(item.snippet.publishedAt).toLocaleDateString();
-                    
-                    return `
-                        <div class="video-card" onclick="window.open('https://www.youtube.com/watch?v=${videoId}', '_blank')">
-                            <img src="${thumbnail}" class="video-thumbnail" alt="${title}">
-                            <div class="video-info">
-                                <div class="video-title">${title}</div>
-                                <div class="video-date">${publishedAt}</div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                container.innerHTML = `<div class="videos-grid">${videosHTML}</div>`;
-                
-            } catch (error) {
-                console.error('Error fetching videos:', error);
-                container.innerHTML = `
-                    <div class="error-message">
-                        Error loading videos. Please try again later.
-                        <br><br>
-                        <a href="https://youtube.com/NyxByteHJ" target="_blank" style="color: #0ea5e9;">Visit the channel directly on YouTube</a>
-                    </div>
-                `;
-            }
-        }
-
-        // Initialize
-        fetchVideos();
     </script>
 </body>
 </html>
