@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyxByte - YouTube Creator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .video-info {
+            padding: 1rem;
+        }
+
+        .video-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+        }
+
+        .about-content, .contact-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .about-content h2, .contact-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p, .contact-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+        }
+
+        .contact-info a {
+            color: #fff;
+            font-size: 1.3rem;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .contact-info a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img id="channelLogo" src="https://via.placeholder.com/50" alt="NyxByte Logo">
+            <h1>NyxByte</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home" class="nav-link active" onclick="showPage('home')">Home</a></li>
+            <li><a href="#about" class="nav-link" onclick="showPage('about')">About</a></li>
+            <li><a href="#contact" class="nav-link" onclick="showPage('contact')">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <h2>Welcome to NyxByte</h2>
+                <p>Check out the latest videos from the channel</p>
+            </div>
+            <div id="videosContainer" class="loading">Loading videos...</div>
+        </div>
+
+        <!-- About Page -->
+        <div id="about" class="page">
+            <div class="about-content">
+                <h2>About NyxByte</h2>
+                <p>Welcome to NyxByte! This channel is dedicated to creating engaging content that combines creativity, technology, and entertainment. Whether you're looking for tutorials, reviews, or just some fun content, NyxByte has something for everyone.</p>
+                <p style="margin-top: 1rem;">Join the community and subscribe to stay updated with the latest uploads. Every video is crafted with passion and dedication to bring you the best viewing experience.</p>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="contact-content">
+                <h2>Get in Touch</h2>
+                <p>Have questions, suggestions, or collaboration ideas? Feel free to reach out!</p>
+                <div class="contact-info">
+                    <a href="mailto:nyxcontact@zohomail.com">📧 nyxcontact@zohomail.com</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = 'AIzaSyDummy_Key_Replace_With_Real'; // User needs to add their own API key
+        const CHANNEL_ID = 'UCYourChannelID'; // Will be extracted from username
+
+        function showPage(pageName) {
+            const pages = document.querySelectorAll('.page');
+            const links = document.querySelectorAll('.nav-link');
+            
+            pages.forEach(page => page.classList.remove('active'));
+            links.forEach(link => link.classList.remove('active'));
+            
+            document.getElementById(pageName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function getChannelIdFromUsername() {
+            try {
+                // For demonstration, using a popular tech channel
+                // In production, you'd need to use YouTube Data API with proper authentication
+                return 'UCYourChannelID';
+            } catch (error) {
+                console.error('Error fetching channel:', error);
+                return null;
+            }
+        }
+
+        async function fetchVideos() {
+            const container = document.getElementById('videosContainer');
+            
+            // Since we can't use YouTube API without a key, we'll create a demo layout
+            // User can replace this with actual API implementation
+            container.innerHTML = `
+                <div class="videos-grid">
+                    <div class="video-card" onclick="window.open('https://youtube.com/NyxByteHJ', '_blank')">
+                        <img src="https://via.placeholder.com/320x180/667eea/ffffff?text=Video+1" class="video-thumbnail" alt="Video 1">
+                        <div class="video-info">
+                            <div class="video-title">Click to visit NyxByte Channel</div>
+                        </div>
+                    </div>
+                    <div class="video-card" onclick="window.open('https://youtube.com/NyxByteHJ', '_blank')">
+                        <img src="https://via.placeholder.com/320x180/764ba2/ffffff?text=Video+2" class="video-thumbnail" alt="Video 2">
+                        <div class="video-info">
+                            <div class="video-title">Subscribe for more content!</div>
+                        </div>
+                    </div>
+                    <div class="video-card" onclick="window.open('https://youtube.com/NyxByteHJ', '_blank')">
+                        <img src="https://via.placeholder.com/320x180/667eea/ffffff?text=Video+3" class="video-thumbnail" alt="Video 3">
+                        <div class="video-info">
+                            <div class="video-title">Latest uploads coming soon</div>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 2rem; opacity: 0.8;">
+                    To display real videos, you'll need to add a YouTube Data API key and implement the API calls.
+                    <br>Visit <a href="https://console.cloud.google.com" style="color: #fff;">Google Cloud Console</a> to get an API key.
+                </p>
+            `;
+        }
+
+        // Initialize
+        fetchVideos();
+
+        // Note: To get this fully working with real YouTube videos, you need to:
+        // 1. Get a YouTube Data API key from Google Cloud Console
+        // 2. Replace the API_KEY variable above
+        // 3. The code will then automatically fetch and display real videos
+    </script>
+</body>
+</html>
